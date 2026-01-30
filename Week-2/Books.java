@@ -4,28 +4,36 @@
  * Date: 2026-01-27
  * Methods include: addBook, removeBook, listAllBooks.
  */
+import java.util.Scanner;
 
 public class Books {
 
     // Attributes
-    String title;
-    String author;
-    String isbn;
+    String title = "";
+    String author = "";
+    String isbn = "";
 
     // Mthod to add a book
-    void addBook(String title, String author, String isbn) {
-        this.title = title;
-        this.author = author;
-        this.isbn = isbn;
+    void addBook(Scanner input) {
+        System.out.print("Enter book title: ");
+        this.title = input.nextLine();
+        System.out.print("Enter book author: ");
+        this.author = input.nextLine();
+        System.out.print("Enter book ISBN: ");
+        this.isbn = input.nextLine();
         System.out.println("Book added: " + title + " by " + author + " (ISBN: " + isbn + ")");
     }
 
     // Method to remove a book
     void removeBook() {
-        this.title = null;
-        this.author = null;
-        this.isbn = null;
-        System.out.println("Book removed.");
+        if (title != null && author != null && isbn != null) {
+            System.out.println("Removing book: " + title + " by " + author + " (ISBN: " + isbn + ")");
+            title = null;
+            author = null;
+            isbn = null;
+        } else {
+            System.out.println("No book to remove.");
+        }
     }
 
     // Method to display all books
@@ -38,22 +46,43 @@ public class Books {
     }
 
     // Main method for testing
+    // Main method
     public static void main(String[] args) {
-        // Create a Books object
-        Books myBook = new Books();
 
-        // Add a book
-        myBook.addBook("1984", "George Orwell", "1234567890");
+        Scanner input = new Scanner(System.in);
+        Books book = new Books();
+        int choice;
 
-        // List all books
-        System.out.println("All Books in the Collection:");
-        myBook.listAllBooks();
+        do {
+            // Menu
+            System.out.println("==== BOOK MENU ====");
+            System.out.println("1. Add Book");
+            System.out.println("2. Remove Book");
+            System.out.println("3. Display Book");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
 
-        // Remove the book
-        myBook.removeBook();
+            choice = input.nextInt();
+            input.nextLine(); // clear buffer
 
-        // List all books again
-        System.out.println("New Book Collection:");
-        myBook.listAllBooks();
+            if (choice == 1) {
+                book.addBook(input);
+            } 
+            else if (choice == 2) {
+                book.removeBook();
+            } 
+            else if (choice == 3) {
+                book.listAllBooks();
+            } 
+            else if (choice == 4) {
+                System.out.println("Goodbye!");
+            } 
+            else {
+                System.out.println("Invalid choice.\n");
+            }
+
+        } while (choice != 4);
+
+        input.close();
     }
 }
